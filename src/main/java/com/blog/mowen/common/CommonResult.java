@@ -30,4 +30,8 @@ public class CommonResult {
     public static CommonResult success(Object data) {
         return new CommonResult(data);
     }
+
+    public static CommonResult success() {
+        return new CommonResult(null);
+    }
 }
