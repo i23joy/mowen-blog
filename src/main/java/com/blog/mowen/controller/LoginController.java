@@ -40,7 +40,7 @@ public class LoginController {
     @ApiOperation("send")
     @GetMapping("/send/{input}")
     public void sendFoo(@PathVariable String input) {
-        this.template.send("testTopic", input);
+        this.template.send("ssss", input);
     }
 
 

@@ -22,13 +22,17 @@ public class CommonResult {
 
     public CommonResult(Object data) {
         this.message = "success";
-        this.code = 100000;
+        this.code = 200;
         this.data = data;
         this.success = true;
     }
 
     public static CommonResult success(Object data) {
         return new CommonResult(data);
+    }
+
+    public static CommonResult failed(String errMsg, Integer code) {
+        return new CommonResult(errMsg, code, null, false);
     }
 
     public static CommonResult success() {

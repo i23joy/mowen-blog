@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    stream:
+      default-binder: kafka
+      blindings:
+        my-kafka-in:
+          binder: my-kafka
+          destination: my-kafka-in
+        my-kafka-out:
+          binder: my-kafka
+          destination: my-kafka-out
+      binders:
+        my-kafka:
+          type: kafka
+          environment:
+            spring:
+              cloud.stream.kafka.binder:
+                broker: 8.131.78.89:9092
