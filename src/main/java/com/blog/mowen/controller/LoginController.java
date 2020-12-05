@@ -34,7 +34,13 @@ public class LoginController {
         return CommonResult.success();
     }
 
-    @Autowired
+    @GetMapping("/hello")
+    @ResponseBody
+    public CommonResult hello() {
+        return CommonResult.success();
+    }
+
+/*    @Autowired
     private KafkaTemplate<Object, Object> template;
 
     @ApiOperation("send")
@@ -47,6 +53,6 @@ public class LoginController {
     @KafkaListener(id = "webGroup", topics = "testTopic")
     public void listen(String input) {
         log.info("input value: {}" , input);
-    }
+    }*/
 
 }

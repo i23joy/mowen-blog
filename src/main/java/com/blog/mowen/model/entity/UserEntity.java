@@ -25,6 +25,8 @@ public class UserEntity extends BaseEntity{
     @Column(name = "upassword")
     private String password;
 
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
     @Column(name = "avatar")
-    private String avatar;
+    private byte[] avatar;
 }

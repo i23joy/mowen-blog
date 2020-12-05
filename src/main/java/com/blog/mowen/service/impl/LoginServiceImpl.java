@@ -6,6 +6,7 @@ import com.blog.mowen.exception.CommonException;
 import com.blog.mowen.model.entity.UserEntity;
 import com.blog.mowen.model.repository.UserRepo;
 import com.blog.mowen.service.LoginService;
+import com.blog.mowen.util.BlobUtils;
 import com.blog.mowen.util.DateUtils;
 import com.blog.mowen.vo.LoginUser;
 
@@ -14,9 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 @Slf4j
@@ -44,7 +42,7 @@ public class LoginServiceImpl implements LoginService {
     private UserEntity initEntity(UserRegisterDto registerDto) {
         UserEntity entity = new UserEntity();
         entity.setUsername(registerDto.getUsername());
-        entity.setAvatar(registerDto.getAvatarUrl());
+        entity.setAvatar(BlobUtils.base64ToByte(registerDto.getAvatar()));
         entity.setPassword(registerDto.getPassword());
         entity.setEmail(registerDto.getEmail());
         return entity;
@@ -53,7 +51,7 @@ public class LoginServiceImpl implements LoginService {
     private LoginUser initLoginUser(UserEntity entity) {
         return LoginUser.builder().loginTime(DateUtils.nowLocalDateTime())
                 .username(entity.getUsername())
-                .avatar(entity.getAvatar())
+                .avatar(BlobUtils.byteToBase64(entity.getAvatar()))
                 .email(entity.getEmail())
                 .build();
     }
