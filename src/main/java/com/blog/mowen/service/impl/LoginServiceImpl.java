@@ -30,7 +30,7 @@ public class LoginServiceImpl implements LoginService {
         if (entity != null && loginDto.getPassword().equals(entity.getPassword())) {
             return initLoginUser(entity);
         }
-        throw new CommonException(HttpStatus.UNAUTHORIZED, "username and password do not match", 403);
+        throw new CommonException(HttpStatus.FORBIDDEN, "username and password do not match", 403);
     }
 
     @Override
