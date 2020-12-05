@@ -48,19 +48,4 @@ public class LoginController {
         return CommonResult.success();
     }
 
-/*    @Autowired
-    private KafkaTemplate<Object, Object> template;
-
-    @ApiOperation("send")
-    @GetMapping("/send/{input}")
-    public void sendFoo(@PathVariable String input) {
-        this.template.send("ssss", input);
-    }
-
-
-    @KafkaListener(id = "webGroup", topics = "testTopic")
-    public void listen(String input) {
-        log.info("input value: {}" , input);
-    }*/
-
 }
