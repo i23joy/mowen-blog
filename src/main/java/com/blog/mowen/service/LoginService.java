@@ -9,4 +9,6 @@ public interface LoginService {
     LoginUser login(LoginDto loginDto);
 
     void register(UserRegisterDto registerDto);
+
+    void modifyAvatar(UserRegisterDto registerDto);
 }

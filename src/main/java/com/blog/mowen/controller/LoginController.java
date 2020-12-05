@@ -40,6 +40,14 @@ public class LoginController {
         return CommonResult.success();
     }
 
+    @PostMapping("/modify/avatar")
+    @ApiOperation(value = "modify user avatar, please input PARAMS [username, avatar]")
+    @ResponseBody
+    public CommonResult modifyAvatar(@RequestBody UserRegisterDto registerDto) {
+        loginService.modifyAvatar(registerDto);
+        return CommonResult.success();
+    }
+
 /*    @Autowired
     private KafkaTemplate<Object, Object> template;
 

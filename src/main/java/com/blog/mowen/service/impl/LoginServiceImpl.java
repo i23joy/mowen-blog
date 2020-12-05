@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Base64Utils;
 
 @Service
 @Slf4j
@@ -34,15 +35,30 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public void register(UserRegisterDto registerDto) {
+        UserEntity userEntityByUsername = userRepo.findByUsername(registerDto.getUsername());
         UserEntity entity = initEntity(registerDto);
-        userRepo.saveAndFlush(entity);
-        log.info("user register success! data: [{}]", entity);
+        if (userEntityByUsername != null) {
+            throw new CommonException(HttpStatus.BAD_REQUEST, "The username already exists", 400);
+        }
+        try {
+            UserEntity userEntity = userRepo.saveAndFlush(entity);
+            log.info("user register success! data: [{}]", userEntity);
+        } catch (Exception e) {
+            log.error("register happens error [{}]", e.getMessage());
+        }
+    }
+
+    @Override
+    public void modifyAvatar(UserRegisterDto registerDto) {
+        UserEntity userEntity = userRepo.findByUsername(registerDto.getUsername().toLowerCase());
+        userEntity.setAvatar(Base64Utils.decodeFromString(registerDto.getAvatar()));
+        userRepo.saveAndFlush(userEntity);
+        log.info("user [{}] update avatar success", registerDto.getUsername());
     }
 
     private UserEntity initEntity(UserRegisterDto registerDto) {
         UserEntity entity = new UserEntity();
-        entity.setUsername(registerDto.getUsername());
-        entity.setAvatar(BlobUtils.base64ToByte(registerDto.getAvatar()));
+        entity.setUsername(registerDto.getUsername().toLowerCase());
         entity.setPassword(registerDto.getPassword());
         entity.setEmail(registerDto.getEmail());
         return entity;
@@ -51,8 +67,8 @@ public class LoginServiceImpl implements LoginService {
     private LoginUser initLoginUser(UserEntity entity) {
         return LoginUser.builder().loginTime(DateUtils.nowLocalDateTime())
                 .username(entity.getUsername())
-                .avatar(BlobUtils.byteToBase64(entity.getAvatar()))
                 .email(entity.getEmail())
+                .id(entity.getUid())
                 .build();
     }
 

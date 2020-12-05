@@ -9,6 +9,7 @@ import org.apache.kafka.common.protocol.types.Field;
 @ApiModel
 @Builder
 public class LoginUser {
+    private String id;
     private String username;
     private String token;
     private String loginTime;
