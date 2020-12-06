@@ -56,6 +56,12 @@ public class LoginServiceImpl implements LoginService {
         log.info("user [{}] update avatar success", registerDto.getUsername());
     }
 
+    @Override
+    public LoginUser getUserInfoByUsername(String username) {
+        UserEntity userEntity = userRepo.findByUsername(username);
+        return initLoginUser(userEntity);
+    }
+
     private UserEntity initEntity(UserRegisterDto registerDto) {
         UserEntity entity = new UserEntity();
         entity.setUsername(registerDto.getUsername().toLowerCase());
@@ -68,6 +74,7 @@ public class LoginServiceImpl implements LoginService {
         return LoginUser.builder().loginTime(DateUtils.nowLocalDateTime())
                 .username(entity.getUsername())
                 .email(entity.getEmail())
+                .avatar(Base64Utils.encodeToString(entity.getAvatar()))
                 .id(entity.getUid())
                 .build();
     }

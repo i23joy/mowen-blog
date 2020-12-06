@@ -8,8 +8,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +44,13 @@ public class LoginController {
     public CommonResult modifyAvatar(@RequestBody UserRegisterDto registerDto) {
         loginService.modifyAvatar(registerDto);
         return CommonResult.success();
+    }
+
+    @GetMapping("/getUserInfoByUsername/{username}")
+    @ApiOperation(value = "get user info by username")
+    @ResponseBody
+    public CommonResult getUserInfoByUsername(@PathVariable String username) {
+        return CommonResult.success(loginService.getUserInfoByUsername(username));
     }
 
 }
