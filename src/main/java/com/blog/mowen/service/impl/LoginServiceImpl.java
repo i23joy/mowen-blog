@@ -71,12 +71,15 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private LoginUser initLoginUser(UserEntity entity) {
-        return LoginUser.builder().loginTime(DateUtils.nowLocalDateTime())
+        LoginUser.LoginUserBuilder loginUserBuilder = LoginUser.builder().loginTime(DateUtils.nowLocalDateTime())
                 .username(entity.getUsername())
                 .email(entity.getEmail())
-                .avatar(Base64Utils.encodeToString(entity.getAvatar()))
-                .id(entity.getUid())
-                .build();
+                .id(entity.getUid());
+        if (entity.getAvatar() != null) {
+            loginUserBuilder.avatar(Base64Utils.encodeToString(entity.getAvatar()));
+        }
+        return loginUserBuilder.build();
+
     }
 
 }
